@@ -17,6 +17,7 @@ func _ready() -> void:
 	camera = %Camera
 	remove_child(camera)
 	get_node("/root/Main").add_child.call_deferred(camera)
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -28,7 +29,18 @@ func _process(delta: float) -> void:
 	camera.position = head.global_position
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		velocity.y = jump_force
+
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
 	var input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	velocity.x = input.x * move_speed
-	velocity.z = input.y * move_speed
+	var direction = camera.basis.z * input.y + camera.basis.x * input.x
+	direction.y = 0
+	direction = direction.normalized()
+
+	velocity.x = direction.x * move_speed
+	velocity.z = direction.z * move_speed
+
 	move_and_slide()
