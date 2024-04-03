@@ -1,9 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://co0tlcffegfdr"]
+[gd_scene load_steps=30 format=3 uid="uid://co0tlcffegfdr"]
 
 [ext_resource type="ArrayMesh" uid="uid://73d8opsl8vco" path="res://assets/models/Terrain.obj" id="1_ja7cu"]
 [ext_resource type="Script" path="res://game/day_night_cycle.gd" id="1_xeof3"]
 [ext_resource type="Script" path="res://actors/player.gd" id="2_uo0e5"]
 [ext_resource type="PackedScene" uid="uid://b8ti3hr4prkp" path="res://assets/tree.tscn" id="4_pyuvp"]
+[ext_resource type="Script" path="res://levels/player_needs.gd" id="5_053fv"]
+[ext_resource type="PackedScene" uid="uid://c2x3i08whq1v0" path="res://ui/need_ui_bar.tscn" id="5_bf8op"]
+[ext_resource type="Script" path="res://game/need.gd" id="5_ek854"]
 
 [sub_resource type="Gradient" id="Gradient_wl47w"]
 offsets = PackedFloat32Array(0, 0.35, 0.65, 1)
@@ -52,6 +55,30 @@ data = PackedVector3Array(-24.4957, -1.3, 25, -25, -1.3, 25, -24.4957, -1.3, 24.
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4i10q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_johe5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6fyn"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_378he"]
+bg_color = Color(0.854902, 0.0431373, 0.168627, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rxbxv"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tgc7v"]
+bg_color = Color(0, 0.607843, 0.309804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wuib"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7e8v"]
+bg_color = Color(0, 0.513726, 0.870588, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hbogx"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7s3k"]
+bg_color = Color(0.988235, 0.792157, 0.329412, 1)
 
 [node name="Main" type="Node3D"]
 
@@ -131,3 +158,74 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 current = true
+
+[node name="PlayerNeeds" type="Node3D" parent="Player"]
+script = ExtResource("5_053fv")
+no_food_health_decay = 1.0
+no_water_health_decay = 1.0
+
+[node name="Health" type="Node" parent="Player/PlayerNeeds" node_paths=PackedStringArray("ui_bar")]
+unique_name_in_owner = true
+script = ExtResource("5_ek854")
+max_value = 100.0
+start_value = 80.0
+ui_bar = NodePath("HealthBar")
+
+[node name="HealthBar" parent="Player/PlayerNeeds/Health" instance=ExtResource("5_bf8op")]
+offset_left = 10.0
+offset_top = 440.0
+offset_right = 310.0
+offset_bottom = 485.0
+theme_override_styles/background = SubResource("StyleBoxFlat_f6fyn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_378he")
+need_name = "Health"
+
+[node name="Food" type="Node" parent="Player/PlayerNeeds" node_paths=PackedStringArray("ui_bar")]
+unique_name_in_owner = true
+script = ExtResource("5_ek854")
+max_value = 100.0
+start_value = 70.0
+decay_rate = 3.0
+ui_bar = NodePath("FoodBar")
+
+[node name="FoodBar" parent="Player/PlayerNeeds/Food" instance=ExtResource("5_bf8op")]
+offset_left = 10.0
+offset_top = 490.0
+offset_right = 310.0
+offset_bottom = 535.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rxbxv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tgc7v")
+need_name = "Food"
+
+[node name="Water" type="Node" parent="Player/PlayerNeeds" node_paths=PackedStringArray("ui_bar")]
+unique_name_in_owner = true
+script = ExtResource("5_ek854")
+max_value = 100.0
+start_value = 80.0
+decay_rate = 5.0
+ui_bar = NodePath("WaterBar")
+
+[node name="WaterBar" parent="Player/PlayerNeeds/Water" instance=ExtResource("5_bf8op")]
+offset_left = 10.0
+offset_top = 540.0
+offset_right = 310.0
+offset_bottom = 585.0
+theme_override_styles/background = SubResource("StyleBoxFlat_2wuib")
+theme_override_styles/fill = SubResource("StyleBoxFlat_d7e8v")
+need_name = "Water"
+
+[node name="Exhaustion" type="Node" parent="Player/PlayerNeeds" node_paths=PackedStringArray("ui_bar")]
+unique_name_in_owner = true
+script = ExtResource("5_ek854")
+max_value = 100.0
+regen_rate = 1.0
+ui_bar = NodePath("ExhaustionBar")
+
+[node name="ExhaustionBar" parent="Player/PlayerNeeds/Exhaustion" instance=ExtResource("5_bf8op")]
+offset_left = 10.0
+offset_top = 590.0
+offset_right = 310.0
+offset_bottom = 635.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hbogx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o7s3k")
+need_name = "Exhaustion"

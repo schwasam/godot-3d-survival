@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 		camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, min_x_rotation, max_x_rotation)
 		camera.rotation_degrees.y += event.relative.x * -look_sensitivity
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	camera.position = head.global_position
 
 func _physics_process(delta: float) -> void:
