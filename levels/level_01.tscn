@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://game/day_night_cycle.gd" id="1_xeof3"]
 [ext_resource type="Script" path="res://actors/player.gd" id="2_uo0e5"]
 [ext_resource type="PackedScene" uid="uid://b8ti3hr4prkp" path="res://assets/tree.tscn" id="4_pyuvp"]
-[ext_resource type="Script" path="res://levels/player_needs.gd" id="5_053fv"]
+[ext_resource type="Script" path="res://game/player_needs.gd" id="5_053fv"]
 [ext_resource type="PackedScene" uid="uid://c2x3i08whq1v0" path="res://ui/need_ui_bar.tscn" id="5_bf8op"]
 [ext_resource type="Script" path="res://game/need.gd" id="5_ek854"]
 
